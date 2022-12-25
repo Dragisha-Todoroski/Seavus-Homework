@@ -85,16 +85,20 @@ console.log('\n\n');
 
 // Description: Write a loop in JavaScript that in range from 1 till 20 will write in the console every number, and will add the "\n" new line after every even number otherwise it will add " " empty space.
 
-for(let num = 1; num <= 20; num++) {
-    console.log(num);
+// let line = '';
 
-    if(num % 2 === 0) {
-        console.log('\n');
-    }
-    else {
-        console.log(' ');
-    }
+for(let num = 1; num <= 19; num++) {
+    
+    // if(num % 2 === 0) {
+    //     line += num + '\n';
+    // }    
+    // else {
+    //     line += num + ' ';
+    // }
+    console.log(num, ++num); // може  и другата верзија во коментарите, само ќе треба таму условот да ни е num < = 20, ама ова e пократко
 }
+
+// console.log(line);
 
 console.log('\n\n');
 
