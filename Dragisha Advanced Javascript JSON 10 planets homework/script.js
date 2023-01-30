@@ -3,46 +3,37 @@ let swBtn = document.getElementById('swBtn');
 let properties = ['Planet Name', 'Population', 'Climate', 'Gravity'];
 
 let container1 = document.getElementById('container1');
-let table = document.createElement('table');
-table.setAttribute('class', 'table');
-let tableBody = document.createElement('tbody');
-let categories = document.createElement('tr');
-let planet1 = document.createElement('tr');
-let planet2 = document.createElement('tr');
-let planet3 = document.createElement('tr');
-let planet4 = document.createElement('tr');
-let planet5 = document.createElement('tr');
-let planet6 = document.createElement('tr');
-let planet7 = document.createElement('tr');
-let planet8 = document.createElement('tr');
-let planet9 = document.createElement('tr');
-let planet10 = document.createElement('tr');
 
-table.style.borderCollapse = 'collapse';
-container1.appendChild(table);
-table.appendChild(tableBody);
-tableBody.appendChild(categories);
-tableBody.appendChild(planet1);
-tableBody.appendChild(planet2);
-tableBody.appendChild(planet3);
-tableBody.appendChild(planet4);
-tableBody.appendChild(planet5);
-tableBody.appendChild(planet6);
-tableBody.appendChild(planet7);
-tableBody.appendChild(planet8);
-tableBody.appendChild(planet9);
-tableBody.appendChild(planet10);
+let getData = url => {
+    fetch(url)
+    .then(res => res.json())
+    .then(data => {
+        starWarsPlanetsAPI(data)
+    })
+    .catch (err => console.log('There is an error:', err));}
 
-swBtn.addEventListener('click', () =>
-    fetch('https://swapi.dev/api/planets/?page=1')
-        .then(res => res.json())
-        .then(data => starWarsPlanetsAPI(data))
-        .catch (err => console.log('There is an error:', err)));
+swBtn.addEventListener('click', () => {
+    getData('https://swapi.dev/api/planets/?page=1')
+});
         
 
 let starWarsPlanetsAPI = data => {
+    tableDiv.innerHTML = '';
     swBtn.style.display = 'none';
-    console.log(data);
+
+    let table = document.createElement('table');
+    let tableBody = document.createElement('tbody');
+    let categories = document.createElement('tr');
+
+    table.style.borderCollapse = 'collapse';
+    tableDiv.appendChild(table);
+    table.appendChild(tableBody);
+    tableBody.appendChild(categories);
+
+    for (let i = 0; i < 10; i++) {
+        let tableRow = document.createElement('tr');
+        tableBody.appendChild(tableRow)[i];
+    };
 
     for (let property of properties) {
         let tableHeader = document.createElement('th');
@@ -78,17 +69,24 @@ let starWarsPlanetsAPI = data => {
         tableBody.children[i+1].appendChild(gravityCell);
     };
 
-    // next10Btn.style.display = 'block';
+    container1.appendChild(next10Btn);
 };
 
+let next10Btn = document.createElement('button');
+next10Btn.innerText = 'NEXT 10';
 
-// let next10Btn = document.createElement('button');
-// next10Btn.innerText = 'NEXT 10';
-// table.appendChild(next10Btn);
-// next10Btn.style.display = 'none';
+let previous10Btn = document.createElement('button');
+previous10Btn.innerText = 'PREVIOUS 10';
 
-// next10Btn.addEventListener('click', () =>
-//     fetch('https://swapi.dev/api/planets/?page=2')
-//         .then(res => res.json())
-//         .then(data => starWarsPlanetsAPI(data))
-//         .catch (err => console.log('There is an error:', err)));
+next10Btn.addEventListener('click', () => {
+    getData('https://swapi.dev/api/planets/?page=2');
+    next10Btn.style.display = 'none';
+    container1.appendChild(previous10Btn);
+    previous10Btn.style.display = 'block';
+});
+
+previous10Btn.addEventListener('click', () => {
+    getData('https://swapi.dev/api/planets/?page=1');
+    previous10Btn.style.display = 'none';
+    next10Btn.style.display = 'block';
+});
